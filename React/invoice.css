@@ -1,0 +1,17 @@
+body{
+    background-image: url("checkout.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+
+}
+h1 { font: bold 100%; letter-spacing: 0.5em; text-align: center; background-color: red; color: white; }
+.cont1 {
+    max-width: 844.88px;
+    padding: 16px;
+    background-color: white;
+    margin: auto;
+    
+}
+
+

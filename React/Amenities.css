@@ -1,0 +1,19 @@
+.Amenities{
+   
+    }
+
+.Amen{
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+.Amen_Title{
+    font-size: 60px;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: bold;
+    color: white;
+    margin-top: 10PX;
+
+}
+
