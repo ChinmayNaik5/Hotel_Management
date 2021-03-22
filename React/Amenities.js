@@ -6,7 +6,7 @@ import Amen from './Amen';
 
 class Amenities extends Component {
     static defaultProps = {
-        items: [{ name: "Easy Booking", content: "Visit us for a memorable Hotel Experience in A small budget", image: "https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png" },
+        items: [{ name: "Easy Booking", content: "Visit us for a memorable Hotel Experience in A small budget", image: "https://en.wikipedia.org/wiki/Image#/media/File:Image_created_with_a_mobile_phone.png" },
         {name:"World Wide Content & Best Price Guatantee" ,content:"Search and book global inventory from large suppliers accrooss the globe" },
         {name:"Travel Insurance - Now secure yourself",content:"The best travel insurance policy safeguards you from the financial losses"},
         { name: "A La Carte Restaurant", content: "Our Restaurant is opened for breakfast, lunch, and dinner and specializes in gourmet cuisines from around the world", image: "" },
@@ -15,8 +15,8 @@ class Amenities extends Component {
     }
     render() {
         return (
-            <div >
-                <p className="Amen_Title">Services</p>
+            <div className="Amenities">
+                <p className="Amen_Title">Key Services</p>
                 <div className="Amen">
                     {this.props.items.map((p) => (
                         <Amen name={p.name} content={p.content} image={p.image} />
