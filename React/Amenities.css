@@ -1,11 +1,20 @@
 .Amenities{
-   
+    
+    background-image:url("wall.jpg");
+    background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-size: cover;
+      background-position: center ; 
+      
     }
 
 .Amen{
     display: flex;
     justify-content: space-evenly;
     flex-wrap: wrap;
+    text-align: center;
+    
+    
 }
 
 .Amen_Title{
@@ -14,6 +23,7 @@
     font-weight: bold;
     color: white;
     margin-top: 10PX;
+    text-align: center;
 
 }
 
