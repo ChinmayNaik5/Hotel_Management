@@ -3,19 +3,27 @@
     background-repeat: no-repeat;
       background-size: cover;
       background-position: center ;
+      background-attachment: fixed;
 }
 
 
 .invoice_Container{
     background-color: white;
-    margin-top: 5px;
+    width: 850px;
+    margin: auto;
+    font-size: 17px;
+    font-family: 'Times New Roman', Times, serif;
+   
 
 }
 
 .invoice_Title{
-    font-family:'Times New Roman', Times, serif;
-    font-weight: bolder;
+  
     text-align: center;
     background-color: red;
     color: white;
+}
+
+.span_data{
+    font-weight: bold;
 }
