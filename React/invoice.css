@@ -11,14 +11,11 @@
     background-color: white;
     width: 850px;
     margin: auto;
-    font-size: 17px;
+    font-size: 18px;
     font-family: 'Times New Roman', Times, serif;
-   
-
 }
 
 .invoice_Title{
-  
     text-align: center;
     background-color: red;
     color: white;
@@ -26,4 +23,8 @@
 
 .span_data{
     font-weight: bold;
+}
+
+.input{
+border: transparent;   
 }
