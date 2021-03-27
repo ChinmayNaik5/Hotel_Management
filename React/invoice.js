@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Col, Container, Row, ButtonGroup, Button } from 'react-bootstrap';
+import { Col, Container, Row, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './invoice.css'
 
@@ -8,33 +8,60 @@ function Invoice() {
     const [date, setDate] = useState();
     const [vat, setVat] = useState();
     const [subtotal, setSubtotal] = useState();
-    const [serviceCharge,setServiceCharge]=useState();
+    const [serviceCharge, setServiceCharge] = useState();
     const [total, setTotal] = useState();
+    const [charges,setChaerges]=useState();
+    const [save,setsave]=useState(false);
+
+
 
     function getdata(event) {
         let a = event.target.value;
+        setChaerges(a);
         let b = invoice.room_rent_amt;
         let c = (parseFloat(a) + parseFloat(b)).toFixed(2);
         let d = (c * 5 / 100).toFixed(2);
         let e = (c * 3 / 100).toFixed(2);
-        let f=(parseFloat(c)+parseFloat(d)+parseFloat(e)).toFixed(2);
+        let f = (parseFloat(c) + parseFloat(d) + parseFloat(e)).toFixed(2);
         setSubtotal(c);
         setVat(d);
         setServiceCharge(e)
         setTotal(f);
+        //invoice.check_out=date;
+        invoice.other_charges= a;
+        invoice.total_bill_amt=f;
+        setsave(true);
+        
     }
+
+    
+
+
+    function postData(){
+        let demo = JSON.stringify(invoice);
+        fetch("http://localhost:8080/inv", {
+            method: 'PUT',
+            headers: { 'content-type': 'application/json' },
+            body: demo
+        });
+        setsave(false);
+    }
+    
+
 
     useEffect(() => {
         fetch("http://localhost:8080/inv/1")
             .then(res => res.json())
-            .then(result => { setInvoice(result); 
-                console.log(result);})
+            .then(result => {
+                setInvoice(result);
+                console.log(result);
+            })
             
     }, []);
 
     useEffect(() => {
         let today = new Date();
-        let todaydate = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+        let todaydate = today.getFullYear() + '-' + parseInt(today.getMonth() +1) + '-' + today.getDate();
         setDate(todaydate);
         console.log(todaydate);
     }, [])
@@ -79,10 +106,11 @@ function Invoice() {
                 <hr />
                 <Row>
                     <Col md={4}>
-                        <span >Room Rate(per night)</span>
+                        <span >Room Rate </span>
+                        
                     </Col>
                     <Col md={{ span: 4, offset: 4 }}>
-                        <input value={invoice.room_rate} className="input" readOnly></input>
+                    <input  value={invoice.room_rate} className="input" readOnly></input>
                     </Col>
                 </Row>
                 <Row>
@@ -98,7 +126,7 @@ function Invoice() {
                         <span>Other Charges</span>
                     </Col>
                     <Col md={{ span: 4, offset: 4 }}>
-                        <input   placeholder="enter charges here else put 0" className="input" onChange={getdata}></input>
+                        <input value={charges} placeholder="enter charges here else put 0" className="input" onChange={getdata}></input>
                     </Col>
                 </Row>
                 <br />
@@ -151,11 +179,12 @@ function Invoice() {
                 <br /><br /><br /> <br /><br />
                 <Row className="text-center">
                     <Col md={{ span: 4, offset: 4 }}>
-                        <ButtonGroup aria-label="Basic example">
-                            <Button variant="secondary">print</Button>&nbsp;
-                            <Button variant="secondary">e-mail</Button>
-                        </ButtonGroup>
-
+                      {save ? <Button variant="outline-primary" onClick={postData}>save</Button> :
+                             <div>
+                                 <Button variant="outline-primary">print</Button>
+                            <Button variant="outline-primary">e-mail</Button>
+                             </div>  
+                            }
                     </Col>
                 </Row>
                 <br /><br />
