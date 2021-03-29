@@ -1,18 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState,useRef } from 'react';
 import { Col, Container, Row, Button } from 'react-bootstrap';
+import { useReactToPrint } from 'react-to-print';
+import Moment from 'moment';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './invoice.css'
 
 function Invoice() {
     const [invoice, setInvoice] = useState([]);
     const [date, setDate] = useState();
+    const [date1, setDate1] = useState(invoice.check_in);
     const [vat, setVat] = useState();
     const [subtotal, setSubtotal] = useState();
     const [serviceCharge, setServiceCharge] = useState();
     const [total, setTotal] = useState();
     const [charges,setChaerges]=useState();
     const [save,setsave]=useState(false);
-
+    const componentRef = useRef();
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
 
 
     function getdata(event) {
@@ -27,14 +33,14 @@ function Invoice() {
         setVat(d);
         setServiceCharge(e)
         setTotal(f);
-        //invoice.check_out=date;
+        invoice.check_out=date;
         invoice.other_charges= a;
         invoice.total_bill_amt=f;
         setsave(true);
-        
     }
 
     
+   
 
 
     function postData(){
@@ -56,20 +62,32 @@ function Invoice() {
                 setInvoice(result);
                 console.log(result);
             })
+           
+            
             
     }, []);
 
+
+   /* function CheckInDate(){
+        setDate(Moment(date1).format('YYYY-MM-DD'));
+                       setDate1(Moment(new date()).format('YYYY-MM-DD'));}*/
+    
+    function pad2(n) {
+        return (n < 10 ? '0' : '') + n;
+      }
+
+
+
     useEffect(() => {
         let today = new Date();
-        let todaydate = today.getFullYear() + '-' + parseInt(today.getMonth() +1) + '-' + today.getDate();
+        let todaydate = today.getFullYear() + '-' + pad2(today.getMonth() +1) + '-' +  pad2(today.getDate())    ;
         setDate(todaydate);
-        console.log(todaydate);
     }, [])
 
     return (
-        <div className="invoice_Bacground">
+        <div className="invoice_Bacground" >
             <br /><br /><br /><br /><br />
-            <Container className="invoice_Container " >
+            <Container className="invoice_Container " ref={componentRef} >
                 <Row>
                     <Col md={12}>
                         <h1 className="invoice_Title">Invoice</h1>
@@ -83,21 +101,21 @@ function Invoice() {
                 <hr />
                 <Row>
                     <Col md={4}>
-                        <span>Booking Ref. No. : <span className="span_data">{invoice.booking_id}</span></span><br />
+                        <span>Booking Ref. No. : <span className="span_data" >{invoice.booking_id}</span></span><br />
                         <span>Name :<span className="span_data">{invoice.cust_name}</span></span><br />
                         <span>Address :<span className="span_data">{invoice.cust_address}</span></span><br />
                         <span>E-mail :<span className="span_data"></span></span><br />
                         <span>Contact : <span className="span_data">{invoice.cust_contact}</span></span><br />
                     </Col>
                     <Col md={{ span: 4, offset: 4 }}>
-                        <span>Invoice Id:<span className="span_data">{invoice.invoice_id}</span></span><br />
+                        <span>Invoice Id:<span className="span_data" >{invoice.invoice_id}</span></span><br />
                         <span>Bill Date:<span className="span_data">{date}</span></span>
                     </Col>
                 </Row>
                 <hr />
                 <Row>
                     <Col md={4}>
-                        <span>Check-In:<span className="span_data">{invoice.check_in}</span></span>
+                        <span>Check-In:<span className="span_data" >{invoice.check_in}</span></span>
                     </Col>
                     <Col md={{ span: 4, offset: 4 }}>
                         <span> Check-Out:<span className="span_data">{date}</span></span>
@@ -181,7 +199,7 @@ function Invoice() {
                     <Col md={{ span: 4, offset: 4 }}>
                       {save ? <Button variant="outline-primary" onClick={postData}>save</Button> :
                              <div>
-                                 <Button variant="outline-primary">print</Button>
+                                 <Button variant="outline-primary" onClick={handlePrint}>print</Button>
                             <Button variant="outline-primary">e-mail</Button>
                              </div>  
                             }
